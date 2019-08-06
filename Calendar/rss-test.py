@@ -12,12 +12,13 @@ import feedparser
 import random
 from PIL import ImageFont
 
-path = '/home/pi/E-Paper-Master/Calendar/'
+path = '/home/pi/E-Paper-Calendar/Calendar/'
 
 font = font = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 28)
 
 rss_feeds=[
-    "http://feeds.bbci.co.uk/news/world/rss.xml#"
+#    "http://feeds.bbci.co.uk/news/world/rss.xml#"
+    "https://www.brainyquote.com/link/quotebr.rss"
     ] # From which URLs should the RSS-feeds be fetched?
 
 """
@@ -29,10 +30,10 @@ rss_feed = [] #Create an empty list which will be used later
 
 for feeds in rss_feeds: # Use all urls to get rss-feeds.
     text = feedparser.parse(feeds) # Read them with feedparser
-    print('\n',text['feed']['title']) # Display the title of the RSS-feed URL
+    print('\n',text['feed']['title'],text['feed']['description']) # Display the title of the RSS-feed URL
     print('________________________')
     for posts in text.entries: # Get RSS-feed title (usually a shorter description)
-        rss_feed.append(posts.title) # Add the titles to the rss_feed list
+        rss_feed.append(posts.title+" "+posts.description) # Add the titles to the rss_feed list
 
 """
 By now, all titles from all given RSS-feed URLs should have been added to the

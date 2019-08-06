@@ -27,28 +27,28 @@ if [ "$option" = 3 ]; then
     fi
     echo -e "The libraries have been removed successfully"
     echo -e "Removing the E-Paper-Calendar folder if it exists"
-    if [ -d "/home/pi/E-Paper-Master" ]; then
-        sudo rm -r /home/pi/E-Paper-Master/
+    if [ -d "/home/pi/E-Paper-Calendar" ]; then
+        sudo rm -r /home/pi/E-Paper-Calendar/
     fi
 fi
 
 if [ "$option" = 1 ]; then
     echo "Checking if the settings.py exists..."
-    if [ -e /home/pi/E-Paper-Master/Calendar/settings.py ]; then
+    if [ -e /home/pi/E-Paper-Calendar/Calendar/settings.py ]; then
         echo -e "Found an E-Paper settings file."
         sleep 2
 	echo "Backing up the current settings file in the home directory."
 	sleep 2
-	cp /home/pi/E-Paper-Master/Calendar/settings.py /home/pi/settings-old.py
+	cp /home/pi/E-Paper-Calendar/Calendar/settings.py /home/pi/settings-old.py
 	echo -e "renaming the old E-Paper software folder"
 	sleep 2
-	cp -r /home/pi/E-Paper-Master /home/pi/E-Paper-Master-old
-	sudo rm -r /home/pi/E-Paper-Master
+	cp -r /home/pi/E-Paper-Calendar /home/pi/E-Paper-Calendar-old
+	sudo rm -r /home/pi/E-Paper-Calendar
 	echo "Updating now..."
 	echo -e "\e[1;36m"Installing the E-Paper-Calendar Software for your display"\e[0m"
         cd
     else
-        echo -e "Could not find any settings.py file in /home/pi/E-Paper-Master/Calendar"
+        echo -e "Could not find any settings.py file in /home/pi/E-Paper-Calendar/Calendar"
 	echo -e "Please uninstall the software first and then use the install option"
 	echo -e "Exiting now"
 	exit
@@ -91,16 +91,16 @@ fi
 if [ "$option" = 1 ] || [ "$option" = 2 ]; then
     echo -e "\e[1;36m"Installing the E-Paper-Calendar Software for your display"\e[0m"
     cd
-    git clone https://github.com/aceisace/9.7-E-Paper-Calendar-software
-    mkdir E-Paper-Master
+    git clone https://github.com/aceisace/9.7-E-Paper-Master-software
+    mkdir E-Paper-Calendar
     cd 9.7-E-Paper-Calendar-software
-    cp -r Calendar /home/pi/E-Paper-Master/
-    cp README.md /home/pi/E-Paper-Master/
-    cp LICENSE /home/pi/E-Paper-Master/
-    cp -r .git /home/pi/E-Paper-Master/
+    cp -r Calendar /home/pi/E-Paper-Calendar/
+    cp README.md /home/pi/E-Paper-Calendar/
+    cp LICENSE /home/pi/E-Paper-Calendar/
+    cp -r .git /home/pi/E-Paper-Calendar/
 
     # Make a copy of the sample settings.py file
-    cd /home/pi/E-Paper-Master/Calendar
+    cd /home/pi/E-Paper-Calendar/Calendar
     cp settings.py.sample settings.py
     cd
 
@@ -109,7 +109,7 @@ if [ "$option" = 1 ] || [ "$option" = 2 ]; then
     
     # Set up the Display driver
     echo "Setting up the required E-Paper driver files"
-    cd /home/pi/E-Paper-Master/Calendar/Driver-files
+    cd /home/pi/E-Paper-Calendar/Calendar/Driver-files
     cd bcm2835-1.58
     ./configure
     make
@@ -127,15 +127,15 @@ if [ "$option" = 1 ] || [ "$option" = 2 ]; then
     echo ""
 
     # add a short info
-    cat > /home/pi/E-Paper-Master/Info.txt << EOF
+    cat > /home/pi/E-Paper-Calendar/Info.txt << EOF
 This document contains a short info of the E-Paper-Calendar software version
 
 Version: 1.5 (for 9.7" E-Paper version)
 Installer version: 1.5 (Early February 2019)
-configuration file: /home/pi/E-Paper-Master/Calendar/settings.py
+configuration file: /home/pi/E-Paper-Calendar/Calendar/settings.py
 If the time was set correctly, you installed this software on:
 EOF
-    echo "$(date)" >> /home/pi/E-Paper-Master/Info.txt
+    echo "$(date)" >> /home/pi/E-Paper-Calendar/Info.txt
     echo ""
 
     # Setting up supervisor
@@ -144,17 +144,17 @@ EOF
 
     sudo bash -c 'cat > /etc/supervisor/conf.d/E-Paper.conf' << EOF
 [program:E-Paper]
-command = sudo /usr/bin/python3.5 /home/pi/E-Paper-Master/Calendar/E-Paper.py
-stdout_logfile = /home/pi/E-Paper-Master/E-Paper.log
+command = sudo /usr/bin/python3.7 /home/pi/E-Paper-Calendar/Calendar/E-Paper.py
+stdout_logfile = /home/pi/E-Paper-Calendar/E-Paper.log
 stdout_logfile_maxbytes = 1MB
-stderr_logfile = /home/pi/E-Paper-Master/E-Paper-err.log
+stderr_logfile = /home/pi/E-Paper-Calendar/E-Paper-err.log
 stderr_logfile_maxbytes = 1MB
 EOF
 
     sudo service supervisor start E-Paper
 
     echo "setting up crontab job"
-    (crontab -l ; echo "5 * * * * cd /home/pi/E-Paper-Master/Calendar/IT8951/ && sudo ./IT8951 0 0 /home/pi/E-Paper-Master/Calendar/current-image.bmp &") | crontab
+    (crontab -l ; echo "5 * * * * cd /home/pi/E-Paper-Calendar/Calendar/IT8951/ && sudo ./IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp &") | crontab
     echo "done"
 
     # Installing some new dependencies
@@ -171,7 +171,7 @@ EOF
     echo -e "\e[1;31m"If this file is not modified, the programm will not start"\e[0m"
 
     echo -e "\e[1;36m"To modify the settings file, enter:"\e[0m"
-    echo -e "\e[1;36m"nano /home/pi/E-Paper-Master/Calendar/settings.py"\e[0m"
+    echo -e "\e[1;36m"nano /home/pi/E-Paper-Calendar/Calendar/settings.py"\e[0m"
     echo -e "\e[1;36m"You can test if the programm works by typing:"\e[0m"
-    echo -e "\e[1;36m"python3.5 /home/pi/E-Paper-Master/Calendar/E-Paper.py"\e[0m"
+    echo -e "\e[1;36m"python3.7 /home/pi/E-Paper-Calendar/Calendar/E-Paper.py"\e[0m"
 fi

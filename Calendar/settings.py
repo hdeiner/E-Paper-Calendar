@@ -7,6 +7,7 @@ ical_urls = [
 rss_feeds = [
 #   "http://feeds.bbci.co.uk/news/world/rss.xml#",
 #   "http://rss.focus.de/fol/XML/rss_folnews.xml"
+#   "https://www.brainyquote.com/link/quotebr.rss"
     ]
 
 events_max_range = "180"

@@ -32,7 +32,7 @@ except ImportError:
     print("and")
     print("pip3 install feedparser")
 
-path = '/home/pi/E-Paper-Master/Calendar/'
+path = '/home/pi/E-Paper-Calendar/Calendar/'
 os.chdir(path)
 
 owm = pyowm.OWM(api_key)
@@ -326,7 +326,7 @@ def main():
             for feeds in rss_feeds:
                 text = feedparser.parse(feeds)
                 for posts in text.entries:
-                    rss_feed.append(posts.title)
+                    rss_feed.append(posts.title+" "+posts.description)
 
             random.shuffle(rss_feed)
             news = []
@@ -394,7 +394,7 @@ def main():
 
             # Send to E-Paper
             print('Sending to E-Paper')
-            os.system('sudo /home/pi/E-Paper-Master/Calendar/Driver-files/IT8951/IT8951 0 0 /home/pi/E-Paper-Master/Calendar/current-image.bmp')
+            os.system('sudo /home/pi/E-Paper-Calendar/Calendar/Driver-files/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
             print('Done sending to E-Paper')
 
             print('______Sleeping until the next loop______'+'\n')

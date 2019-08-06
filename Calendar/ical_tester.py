@@ -3,13 +3,15 @@ from ics import Calendar, Event
 from urllib.request import urlopen
 
 # Your iCalendar URL
-url = ""
+url = "https://p29-caldav.icloud.com/published/2/MTE1NTY5MDk2MTE1NTY5MCJOF-5CUAOnRuvQjFPKgnTQjIEn82wUBtFGMhyfLnAX"
 
 # Display events which are max. 60 days in the future. Can be changed.
 events_max_range = "60"
 
 # Parsing the iCalendar and fixing errors related to actions
+print("about to read from url")
 decode = str(urlopen(url).read().decode())
+print("decode="+decode)
 fix_e_1 = decode.replace('BEGIN:VALARM\r\nACTION:NONE','BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:')            
 fix_e_2 = fix_e_1.replace('BEGIN:VALARM\r\nACTION:EMAIL','BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:')
 

@@ -6,7 +6,7 @@ E-Paper Software (main script) for the 3-colour and 2-Colour E-Paper display
 A full and detailed breakdown for this code can be found in the wiki.
 If you have any questions, feel free to open an issue at Github.
 
-Copyright by aceisace
+Copyright by aceisace, Howard Deiner
 """
 from __future__ import print_function
 import glob, os
@@ -22,15 +22,54 @@ from time import sleep
 try:
     from urllib.request import urlopen
 except Exception as e:
-    print('It seems the network is offline :(')
+    print('It seems the network is offline :(', file=sys.stdout)
     pass
 
 try:
     import feedparser
 except ImportError:
-    print("Please install feedparser with: sudo pip3 install feedparser")
-    print("and")
-    print("pip3 install feedparser")
+    print("Please install feedparser with: sudo pip3 install feedparser", file=sys.stdout)
+    print("and", file=sys.stdout)
+    print("pip3 install feedparser", file=sys.stdout)
+
+import sys 
+
+# from https://github.com/JuiceBoxZero/LowBatteryShutdown/blob/master/LowBatteryShutdown.py
+
+#import RPi.GPIO as GPIO
+
+# This is going to let us use the BCM pin numbers.  The number on JuiceBox
+# Zero is labeled
+# according to BCM.  See https://pinout.xyz/ for more details on pinouts.
+
+#GPIO.setmode(GPIO.BCM)
+
+# This is where you would change the GPIO from pin 16 to 25, if you needed
+# to do so on the
+# Juice Box Zero board itself. Default is GPIO 16. In order to change the
+# hardware, you would
+# need to cut the GPIO 16 trace on the board and make a solder bridge over
+# GPIO 25.
+# See http://www.blog.juiceboxzero.com/ for more details.
+#shutdown_pin = 16  # defines pin 16 as the pin we're watching
+#GPIO.setup(shutdown_pin, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
+#print("JuiceboxZero GPIO monitor pin set", file=sys.stdout)
+
+def shutdown_callback_function( shutdown_pin ):
+
+    # uncomment the following line to have the Pi tell you that the pin is
+    # HIGH and that the callback function has been entered. This is mostly
+    # useful for debugging.
+    print("the low battery pin is HIGH now, shutting down.", file=sys.stdout)
+
+    os.system("sudo shutdown -h now")
+
+# This is the magic line that adds pin 16 so it is always being watched.
+
+#GPIO.add_event_detect(shutdown_pin, GPIO.RISING, callback=shutdown_callback_function)
+#print("JuiceboxZero shutdown callback added", file=sys.stdout)
+
+# Now, back to the E-Paper-Calendar...
 
 path = '/home/pi/E-Paper-Calendar/Calendar/'
 os.chdir(path)
@@ -80,10 +119,10 @@ def main():
         with (0, 0) being the top left corner of the display."""
         def write_text(box_width, box_height, text, tuple):
             text_width, text_height = font.getsize(text)
-            #print("write_text text_width=" + str(text_width) + " text_height=" + str(text_height))
-            #print("write_text box_width=" + str(box_width) + " box_height=" + str(box_height))
+            #print("write_text text_width=" + str(text_width) + " text_height=" + str(text_height), file=sys.stdout)
+            #print("write_text box_width=" + str(box_width) + " box_height=" + str(box_height), file=sys.stdout)
             if (text_width, text_height) > (box_width, box_height):
-                raise ValueError('Sorry, your text is too big for the box')
+                raise ValueError('Sorry, your text is too big for the box', file=sys.stdout)
             else:
                 space = Image.new('L', (box_width, box_height), color=255)
                 #ImageDraw.Draw(space).line([(2,2),(box_width-2,2),(box_width-2,box_height-2),(2,box_height-2),(2,2)], fill=0, width=2)
@@ -95,10 +134,10 @@ def main():
         with (0, 0) being the top left corner of the display."""
         def write_text_big(box_width, box_height, text, tuple):
             text_width, text_height = font_big.getsize(text)
-            #print("write_text_big text_width=" + str(text_width) + " text_height=" + str(text_height))
-            #print("write_text_big box_width=" + str(box_width) + " box_height=" + str(box_height))
+            #print("write_text_big text_width=" + str(text_width) + " text_height=" + str(text_height), file=sys.stdout)
+            #print("write_text_big box_width=" + str(box_width) + " box_height=" + str(box_height), file=sys.stdout)
             if (text_width, text_height) > (box_width, box_height):
-                raise ValueError('Sorry, your text is too big for the box')
+                raise ValueError('Sorry, your text is too big for the box', file=sys.stdout)
             else:
                 x = int((box_width / 2) - (text_width / 2))
                 space = Image.new('L', (box_width, box_height), color=255)
@@ -111,10 +150,10 @@ def main():
         with (0, 0) being the top left corner of the display."""
         def write_text_time(box_width, box_height, text, tuple):
             text_width, text_height = font_time.getsize(text)
-            #print("write_text_time text_width=" + str(text_width) + " text_height=" + str(text_height))
-            #print("write_text_time box_width=" + str(box_width) + " box_height=" + str(box_height))
+            #print("write_text_time text_width=" + str(text_width) + " text_height=" + str(text_height), file=sys.stdout)
+            #print("write_text_time box_width=" + str(box_width) + " box_height=" + str(box_height), file=sys.stdout)
             if (text_width, text_height) > (box_width, box_height):
-                raise ValueError('Sorry, your text is too big for the box')
+                raise ValueError('Sorry, your text is too big for the box', file=sys.stdout)
             else:
                 x = int((box_width / 2) - (text_width / 2))
                 space = Image.new('L', (box_width, box_height), color=255)
@@ -134,10 +173,10 @@ def main():
                a calibration of the display's colours"""
             #if hour is 0 or hour is 12 or hour is 18:
                 #image.paste(im_open(opath+'white.jpeg'))
-            print('_________Starting new loop___________'+'\n')
+            print('_________Starting new loop___________'+'\n', file=sys.stdout)
 
             image_name = 'current-image'
-            print('Date:', time.strftime('%a %-d %b %y')+', Time: '+time.strftime('%H:%M')+'\n')
+            print('Date:', time.strftime('%a %-d %b %y')+', Time: '+time.strftime('%H:%M')+'\n', file=sys.stdout)
 
             """Create a blank white page first"""
             image = Image.new('L', (EPD_WIDTH, EPD_HEIGHT), 255)
@@ -151,16 +190,16 @@ def main():
 
             """Add weekday-icons (Mon, Tue...) and draw a circle on the
             current weekday"""
-            print('week_starts_on='+week_starts_on)
+            print('week_starts_on='+week_starts_on, file=sys.stdout)
             if (week_starts_on is "Monday"):
-                print('code for week_starts_on Monday')
+                print('code for week_starts_on Monday', file=sys.stdout)
                 calendar.setfirstweekday(calendar.MONDAY)
                 image.paste(weekmon, weekplace)
                 image.paste(weekday, weekdaysmon[(time.strftime("%a"))], weekday)
 
             """For those whose week starts on Sunday, change accordingly"""
             if (week_starts_on is "Sunday"):
-                print('code for week_starts_on Sunday')
+                print('code for week_starts_on Sunday', file=sys.stdout)
                 calendar.setfirstweekday(calendar.SUNDAY)
                 image.paste(weeksun, weekplace)
                 image.paste(weekday, weekdayssun[(time.strftime("%a"))], weekday)
@@ -186,11 +225,11 @@ def main():
 
 
             """Connect to Openweathermap API to fetch weather data"""
-            print("Connecting to Openweathermap API servers...")
+            print("Connecting to Openweathermap API servers...", file=sys.stdout)
             if owm.is_API_online() is True:
-                print("weather location = ", location)
+                print("weather location = ", location, file=sys.stdout)
                 observation = owm.weather_at_place(location)
-                print("weather data:")
+                print("weather data:", file=sys.stdout)
                 weather = observation.get_weather()
                 weathericon = weather.get_weather_icon_name()
                 Humidity = str(weather.get_humidity())
@@ -217,15 +256,15 @@ def main():
                     sunrisetime = str(datetime.fromtimestamp(int(weather.get_sunrise_time(timeformat='unix'))).strftime('%-I:%M %p'))
                     sunsettime = str(datetime.fromtimestamp(int(weather.get_sunset_time(timeformat='unix'))).strftime('%-I:%M %p'))
 
-                print('Temperature: '+Temperature+' °C')
-                print('Humidity: '+Humidity+'%')
-                #print('Icon code: '+weathericon)
-                print('weather-icon name: '+weathericons[weathericon])
-                print('Wind speed: '+windspeed+'km/h')
-                print('Sunrise-time: '+sunrisetime)
-                print('Sunset time: '+sunsettime)
-                print('Cloudiness: ' + cloudstatus+'%')
-                print('Weather description: '+weather_description+'\n')
+                print('Temperature: '+Temperature+' °C', file=sys.stdout)
+                print('Humidity: '+Humidity+'%', file=sys.stdout)
+                #print('Icon code: '+weathericon, file=sys.stdout)
+                print('weather-icon name: '+weathericons[weathericon], file=sys.stdout)
+                print('Wind speed: '+windspeed+'km/h', file=sys.stdout)
+                print('Sunrise-time: '+sunrisetime, file=sys.stdout)
+                print('Sunset time: '+sunsettime, file=sys.stdout)
+                print('Cloudiness: ' + cloudstatus+'%', file=sys.stdout)
+                print('Weather description: '+weather_description+'\n', file=sys.stdout)
 
                 """Add the weather icon"""
                 image.paste(im_open(wpath+weathericons[weathericon]+'.jpeg'), wiconplace)
@@ -251,7 +290,8 @@ def main():
                 """Add a short weather description"""
                 #write_text(250,50, weather_description, (700, 90))
                 if len(cloudstatus) > 0:
-                	write_text(200,50, str(weather_description+" "+cloudstatus+"%"), (750, 95))
+                	#write_text(200,50, str(weather_description+" "+cloudstatus+"%"), (750, 95))
+                	write_text(200,50, weather_description, (750, 95))
                 else:
                 	write_text(200,50, weather_description, (750, 95))
 
@@ -261,7 +301,7 @@ def main():
 
             """Algorithm for filtering and sorting events from your
             iCalendar/s"""
-            print('Fetching events from your calendar'+'\n')
+            print('Fetching events from your calendar'+'\n', file=sys.stdout)
             events_this_month = []
             upcoming = []
             today = date.today()
@@ -275,7 +315,7 @@ def main():
                 fix_e_1 = decode.replace('BEGIN:VALARM\r\nACTION:NONE','BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:')
                 fix_e_2 = fix_e_1.replace('BEGIN:VALARM\r\nACTION:EMAIL','BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:')
                 #uncomment line below to display your calendar in ical format
-                #print(fix_e_2)
+                #print(fix_e_2, file=sys.stdout)
                 ical = Calendar(fix_e_2)
                 for events in ical.events:
                     if events.begin.date().month is today.month:
@@ -291,7 +331,7 @@ def main():
 
             del upcoming[7:]
 
-            #print('Upcoming events:',upcoming) #Display fetched events
+            #print('Upcoming events:',upcoming, file=sys.stdout) #Display fetched events
 
             """Write event dates and names on the E-Paper"""
             for dates in range(len(upcoming)):
@@ -388,16 +428,17 @@ def main():
                     image.paste(dateicon, positions['f'+str(cal[5].index(today)+1)], dateicon)
             
             # Save the generated image in the E-Paper-folder.
-            print('Saving the generated image now...')
+            print('Saving the generated image now...', file=sys.stdout)
             image.save(str(image_name)+'.bmp')
-            print('Image saved successfully')
+            print('Image saved successfully', file=sys.stdout)
 
             # Send to E-Paper
-            print('Sending to E-Paper')
-            os.system('sudo /home/pi/E-Paper-Calendar/Calendar/Driver-files/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
-            print('Done sending to E-Paper')
+            print('Sending to E-Paper', file=sys.stdout)
+            #os.system('sudo /home/pi/E-Paper-Calendar/Calendar/Driver-files/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
+            os.system('sudo /home/pi/Drivers/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
+            print('Done sending to E-Paper', file=sys.stdout)
 
-            print('______Sleeping until the next loop______'+'\n')
+            print('______Sleeping until the next loop______'+'\n', file=sys.stdout)
 
             # delete the list so deleted events can be removed from the list
             del events_this_month
@@ -410,6 +451,7 @@ def main():
                 #nexthour = ((60 - int(time.strftime("%-M")))*60) - (int(time.strftime("%-S")))
                 #sleep(nexthour)
                 nextminute = (60 - int(time.strftime("%-S")))
+                print("sleeping for "+str(nextminute)+" seconds", file=sys.stdout)
                 sleep(nextminute)
 
 if __name__ == '__main__':

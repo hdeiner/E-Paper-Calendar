@@ -33,6 +33,9 @@ except ImportError:
     print("pip3 install feedparser", file=sys.stdout)
 
 import sys 
+import logging
+
+logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', filename='E-Paper.log',level=logging.INFO)
 
 # from https://github.com/JuiceBoxZero/LowBatteryShutdown/blob/master/LowBatteryShutdown.py
 
@@ -120,9 +123,12 @@ def main():
         def write_text(box_width, box_height, text, tuple):
             text_width, text_height = font.getsize(text)
             #print("write_text text_width=" + str(text_width) + " text_height=" + str(text_height), file=sys.stdout)
+            logging.debug('write_text text_width=' + str(text_width) + ' text_height=' + str(text_height))
             #print("write_text box_width=" + str(box_width) + " box_height=" + str(box_height), file=sys.stdout)
+            logging.debug('write_text box_width=' + str(box_width) + ' box_height=' + str(box_height))
             if (text_width, text_height) > (box_width, box_height):
-                raise ValueError('Sorry, your text is too big for the box', file=sys.stdout)
+                logging.error('write_text Sorry, your text is too big for the box')
+                raise ValueError('Sorry, your text is too big for the box')
             else:
                 space = Image.new('L', (box_width, box_height), color=255)
                 #ImageDraw.Draw(space).line([(2,2),(box_width-2,2),(box_width-2,box_height-2),(2,box_height-2),(2,2)], fill=0, width=2)
@@ -135,9 +141,12 @@ def main():
         def write_text_big(box_width, box_height, text, tuple):
             text_width, text_height = font_big.getsize(text)
             #print("write_text_big text_width=" + str(text_width) + " text_height=" + str(text_height), file=sys.stdout)
+            logging.debug('write_text_big text_width=' + str(text_width) + ' text_height=' + str(text_height))
             #print("write_text_big box_width=" + str(box_width) + " box_height=" + str(box_height), file=sys.stdout)
+            logging.debug('write_text_big box_width=' + str(box_width) + ' box_height=' + str(box_height))
             if (text_width, text_height) > (box_width, box_height):
-                raise ValueError('Sorry, your text is too big for the box', file=sys.stdout)
+                logging.error('write_text_big Sorry, your text is too big for the box')
+                raise ValueError('Sorry, your text is too big for the box')
             else:
                 x = int((box_width / 2) - (text_width / 2))
                 space = Image.new('L', (box_width, box_height), color=255)
@@ -151,9 +160,12 @@ def main():
         def write_text_time(box_width, box_height, text, tuple):
             text_width, text_height = font_time.getsize(text)
             #print("write_text_time text_width=" + str(text_width) + " text_height=" + str(text_height), file=sys.stdout)
+            logging.debug('write_text_time text_width=' + str(text_width) + ' text_height=' + str(text_height))
             #print("write_text_time box_width=" + str(box_width) + " box_height=" + str(box_height), file=sys.stdout)
+            logging.debug('write_text_time box_width=' + str(box_width) + ' box_height=' + str(box_height))
             if (text_width, text_height) > (box_width, box_height):
-                raise ValueError('Sorry, your text is too big for the box', file=sys.stdout)
+                logging.error('write_text_time Sorry, your text is too big for the box')
+                raise ValueError('Sorry, your text is too big for the box')
             else:
                 x = int((box_width / 2) - (text_width / 2))
                 space = Image.new('L', (box_width, box_height), color=255)
@@ -173,10 +185,11 @@ def main():
                a calibration of the display's colours"""
             #if hour is 0 or hour is 12 or hour is 18:
                 #image.paste(im_open(opath+'white.jpeg'))
-            print('_________Starting new loop___________'+'\n', file=sys.stdout)
+            #print('_________Starting new loop___________'+'\n', file=sys.stdout)
 
             image_name = 'current-image'
-            print('Date:', time.strftime('%a %-d %b %y')+', Time: '+time.strftime('%H:%M')+'\n', file=sys.stdout)
+            #print('Date:', time.strftime('%a %-d %b %y')+', Time: '+time.strftime('%H:%M')+'\n', file=sys.stdout)
+            logging.info('Starting new loop')
 
             """Create a blank white page first"""
             image = Image.new('L', (EPD_WIDTH, EPD_HEIGHT), 255)
@@ -190,16 +203,19 @@ def main():
 
             """Add weekday-icons (Mon, Tue...) and draw a circle on the
             current weekday"""
-            print('week_starts_on='+week_starts_on, file=sys.stdout)
+            #print('week_starts_on='+week_starts_on, file=sys.stdout)
+            logging.debug('week_starts_on='+week_starts_on)
             if (week_starts_on is "Monday"):
-                print('code for week_starts_on Monday', file=sys.stdout)
+                #print('code for week_starts_on Monday', file=sys.stdout)
+                logging.debug('code for week_starts_on Monday')
                 calendar.setfirstweekday(calendar.MONDAY)
                 image.paste(weekmon, weekplace)
                 image.paste(weekday, weekdaysmon[(time.strftime("%a"))], weekday)
 
             """For those whose week starts on Sunday, change accordingly"""
             if (week_starts_on is "Sunday"):
-                print('code for week_starts_on Sunday', file=sys.stdout)
+                #print('code for week_starts_on Sunday', file=sys.stdout)
+                logging.debug('code for week_starts_on Sunday')
                 calendar.setfirstweekday(calendar.SUNDAY)
                 image.paste(weeksun, weekplace)
                 image.paste(weekday, weekdayssun[(time.strftime("%a"))], weekday)
@@ -225,11 +241,13 @@ def main():
 
 
             """Connect to Openweathermap API to fetch weather data"""
-            print("Connecting to Openweathermap API servers...", file=sys.stdout)
+            #print("Connecting to Openweathermap API servers...", file=sys.stdout)
+            logging.info('Connecting to Openweathermap API servers..')
             if owm.is_API_online() is True:
-                print("weather location = ", location, file=sys.stdout)
+                #print("weather location = ", location, file=sys.stdout)
+                logging.debug('weather location = '+ location)
                 observation = owm.weather_at_place(location)
-                print("weather data:", file=sys.stdout)
+                #print("weather data:", file=sys.stdout)
                 weather = observation.get_weather()
                 weathericon = weather.get_weather_icon_name()
                 Humidity = str(weather.get_humidity())
@@ -256,15 +274,24 @@ def main():
                     sunrisetime = str(datetime.fromtimestamp(int(weather.get_sunrise_time(timeformat='unix'))).strftime('%-I:%M %p'))
                     sunsettime = str(datetime.fromtimestamp(int(weather.get_sunset_time(timeformat='unix'))).strftime('%-I:%M %p'))
 
-                print('Temperature: '+Temperature+' °C', file=sys.stdout)
-                print('Humidity: '+Humidity+'%', file=sys.stdout)
+                #print('Temperature: '+Temperature+' °C', file=sys.stdout)
+                logging.debug('Temperature: '+Temperature+' °C')
+                #print('Humidity: '+Humidity+'%', file=sys.stdout)
+                logging.debug('Humidity: '+Humidity+'%')
                 #print('Icon code: '+weathericon, file=sys.stdout)
-                print('weather-icon name: '+weathericons[weathericon], file=sys.stdout)
-                print('Wind speed: '+windspeed+'km/h', file=sys.stdout)
-                print('Sunrise-time: '+sunrisetime, file=sys.stdout)
-                print('Sunset time: '+sunsettime, file=sys.stdout)
-                print('Cloudiness: ' + cloudstatus+'%', file=sys.stdout)
-                print('Weather description: '+weather_description+'\n', file=sys.stdout)
+                logging.debug('Icon code: '+weathericon)
+                #print('weather-icon name: '+weathericons[weathericon], file=sys.stdout)
+                logging.debug('weather-icon name: '+weathericons[weathericon])
+                #print('Wind speed: '+windspeed+'km/h', file=sys.stdout)
+                logging.debug('Wind speed: '+windspeed+'km/h')
+                #print('Sunrise-time: '+sunrisetime, file=sys.stdout)
+                logging.debug('Sunrise-time: '+sunrisetime)
+                #print('Sunset time: '+sunsettime, file=sys.stdout)
+                logging.debug('Sunset time: '+sunsettime)
+                #print('Cloudiness: ' + cloudstatus+'%', file=sys.stdout)
+                logging.debug('Cloudiness: ' + cloudstatus+'%')
+                #print('Weather description: '+weather_description+'\n', file=sys.stdout)
+                logging.debug('Weather description: '+weather_description)
 
                 """Add the weather icon"""
                 image.paste(im_open(wpath+weathericons[weathericon]+'.jpeg'), wiconplace)
@@ -301,7 +328,8 @@ def main():
 
             """Algorithm for filtering and sorting events from your
             iCalendar/s"""
-            print('Fetching events from your calendar'+'\n', file=sys.stdout)
+            #print('Fetching events from your calendar'+'\n', file=sys.stdout)
+            logging.info('Fetching events from your calendar...')
             events_this_month = []
             upcoming = []
             today = date.today()
@@ -428,17 +456,21 @@ def main():
                     image.paste(dateicon, positions['f'+str(cal[5].index(today)+1)], dateicon)
             
             # Save the generated image in the E-Paper-folder.
-            print('Saving the generated image now...', file=sys.stdout)
+            #print('Saving the generated image now...', file=sys.stdout)
+            logging.info('Saving the generated image now...')
             image.save(str(image_name)+'.bmp')
-            print('Image saved successfully', file=sys.stdout)
+            #print('Image saved successfully', file=sys.stdout)
+            logging.info('Image saved successfully')
 
             # Send to E-Paper
-            print('Sending to E-Paper', file=sys.stdout)
+            #print('Sending to E-Paper', file=sys.stdout)
+            logging.info('Sending to E-Paper')
             #os.system('sudo /home/pi/E-Paper-Calendar/Calendar/Driver-files/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
             os.system('sudo /home/pi/Drivers/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
-            print('Done sending to E-Paper', file=sys.stdout)
+            #print('Done sending to E-Paper', file=sys.stdout)
+            logging.info('Done sending to E-Paper')
 
-            print('______Sleeping until the next loop______'+'\n', file=sys.stdout)
+            #print('______Sleeping until the next loop______'+'\n', file=sys.stdout)
 
             # delete the list so deleted events can be removed from the list
             del events_this_month
@@ -451,7 +483,8 @@ def main():
                 #nexthour = ((60 - int(time.strftime("%-M")))*60) - (int(time.strftime("%-S")))
                 #sleep(nexthour)
                 nextminute = (60 - int(time.strftime("%-S")))
-                print("sleeping for "+str(nextminute)+" seconds", file=sys.stdout)
+                #print("sleeping for "+str(nextminute)+" seconds", file=sys.stdout)
+                logging.info('sleeping for '+str(nextminute)+' seconds')
                 sleep(nextminute)
 
 if __name__ == '__main__':

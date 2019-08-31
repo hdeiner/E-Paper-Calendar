@@ -35,6 +35,9 @@ except ImportError:
 import sys 
 import logging
 
+path = '/home/pi/E-Paper-Calendar/Calendar/'
+os.chdir(path)
+
 logging.basicConfig(format='%(asctime)s %(levelname)s:%(message)s', filename='E-Paper.log',level=logging.INFO)
 
 # from https://github.com/JuiceBoxZero/LowBatteryShutdown/blob/master/LowBatteryShutdown.py
@@ -73,9 +76,6 @@ def shutdown_callback_function( shutdown_pin ):
 #print("JuiceboxZero shutdown callback added", file=sys.stdout)
 
 # Now, back to the E-Paper-Calendar...
-
-path = '/home/pi/E-Paper-Calendar/Calendar/'
-os.chdir(path)
 
 owm = pyowm.OWM(api_key)
 
@@ -189,7 +189,7 @@ def main():
 
             image_name = 'current-image'
             #print('Date:', time.strftime('%a %-d %b %y')+', Time: '+time.strftime('%H:%M')+'\n', file=sys.stdout)
-            logging.info('Starting new loop')
+            logging.info('STARTING NEW LOOP')
 
             """Create a blank white page first"""
             image = Image.new('L', (EPD_WIDTH, EPD_HEIGHT), 255)

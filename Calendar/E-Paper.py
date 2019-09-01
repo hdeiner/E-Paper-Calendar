@@ -92,7 +92,7 @@ def main():
         """Custom function to display text on the E-Paper.
         Tuple refers to the x and y coordinates of the E-Paper display,
         with (0, 0) being the top left corner of the display."""
-        def write_text_right(box_width, box_height, text, tuple):
+        def write_text_fontnormal_right(box_width, box_height, text, tuple):
             text_width, text_height = font.getsize(text)
             while (text_width, text_height) > (box_width, box_height):
                 text=text[0:-1]
@@ -107,7 +107,7 @@ def main():
         """Custom function to display text on the E-Paper.
         Tuple refers to the x and y coordinates of the E-Paper display,
         with (0, 0) being the top left corner of the display."""
-        def write_text_left(box_width, box_height, text, tuple):
+        def write_text_fontnormal_left(box_width, box_height, text, tuple):
             text_width, text_height = font.getsize(text)
             while (text_width, text_height) > (box_width, box_height):
                 text=text[0:-1]
@@ -120,14 +120,14 @@ def main():
         """Custom function to display text on the E-Paper.
         Tuple refers to the x and y coordinates of the E-Paper display,
         with (0, 0) being the top left corner of the display."""
-        def write_text(box_width, box_height, text, tuple):
+        def write_text_fontnormal_center(box_width, box_height, text, tuple):
             text_width, text_height = font.getsize(text)
-            #print("write_text text_width=" + str(text_width) + " text_height=" + str(text_height), file=sys.stdout)
-            logging.debug('write_text text_width=' + str(text_width) + ' text_height=' + str(text_height))
-            #print("write_text box_width=" + str(box_width) + " box_height=" + str(box_height), file=sys.stdout)
-            logging.debug('write_text box_width=' + str(box_width) + ' box_height=' + str(box_height))
+            #print("write_text_fontnormal_center text_width=" + str(text_width) + " text_height=" + str(text_height), file=sys.stdout)
+            logging.debug('write_text_fontnormal_center text_width=' + str(text_width) + ' text_height=' + str(text_height))
+            #print("write_text_fontnormal_center box_width=" + str(box_width) + " box_height=" + str(box_height), file=sys.stdout)
+            logging.debug('write_text_fontnormal_center box_width=' + str(box_width) + ' box_height=' + str(box_height))
             if (text_width, text_height) > (box_width, box_height):
-                logging.error('write_text Sorry, your text is too big for the box')
+                logging.error('write_text_fontnormal_center Sorry, your text is too big for the box')
                 raise ValueError('Sorry, your text is too big for the box')
             else:
                 space = Image.new('L', (box_width, box_height), color=255)
@@ -138,14 +138,14 @@ def main():
         """Custom function to display text on the E-Paper.
         Tuple refers to the x and y coordinates of the E-Paper display,
         with (0, 0) being the top left corner of the display."""
-        def write_text_big(box_width, box_height, text, tuple):
+        def write_text_fontbig_center(box_width, box_height, text, tuple):
             text_width, text_height = font_big.getsize(text)
-            #print("write_text_big text_width=" + str(text_width) + " text_height=" + str(text_height), file=sys.stdout)
-            logging.debug('write_text_big text_width=' + str(text_width) + ' text_height=' + str(text_height))
-            #print("write_text_big box_width=" + str(box_width) + " box_height=" + str(box_height), file=sys.stdout)
-            logging.debug('write_text_big box_width=' + str(box_width) + ' box_height=' + str(box_height))
+            #print("write_text_fontbig_center text_width=" + str(text_width) + " text_height=" + str(text_height), file=sys.stdout)
+            logging.debug('write_text_fontbig_center text_width=' + str(text_width) + ' text_height=' + str(text_height))
+            #print("write_text_fontbig_center box_width=" + str(box_width) + " box_height=" + str(box_height), file=sys.stdout)
+            logging.debug('write_text_fontbig_center box_width=' + str(box_width) + ' box_height=' + str(box_height))
             if (text_width, text_height) > (box_width, box_height):
-                logging.error('write_text_big Sorry, your text is too big for the box')
+                logging.error('write_text_fontbig_center Sorry, your text is too big for the box')
                 raise ValueError('Sorry, your text is too big for the box')
             else:
                 x = int((box_width / 2) - (text_width / 2))
@@ -157,14 +157,14 @@ def main():
         """Custom function to display text on the E-Paper.
         Tuple refers to the x and y coordinates of the E-Paper display,
         with (0, 0) being the top left corner of the display."""
-        def write_text_time(box_width, box_height, text, tuple):
+        def write_text_fonttime_center(box_width, box_height, text, tuple):
             text_width, text_height = font_time.getsize(text)
-            #print("write_text_time text_width=" + str(text_width) + " text_height=" + str(text_height), file=sys.stdout)
-            logging.debug('write_text_time text_width=' + str(text_width) + ' text_height=' + str(text_height))
-            #print("write_text_time box_width=" + str(box_width) + " box_height=" + str(box_height), file=sys.stdout)
-            logging.debug('write_text_time box_width=' + str(box_width) + ' box_height=' + str(box_height))
+            #print("write_text_fonttime_center text_width=" + str(text_width) + " text_height=" + str(text_height), file=sys.stdout)
+            logging.debug('write_text_fonttime_center text_width=' + str(text_width) + ' text_height=' + str(text_height))
+            #print("write_text_fonttime_center box_width=" + str(box_width) + " box_height=" + str(box_height), file=sys.stdout)
+            logging.debug('write_text_fonttime_center box_width=' + str(box_width) + ' box_height=' + str(box_height))
             if (text_width, text_height) > (box_width, box_height):
-                logging.error('write_text_time Sorry, your text is too big for the box')
+                logging.error('write_text_fonttime_center Sorry, your text is too big for the box')
                 raise ValueError('Sorry, your text is too big for the box')
             else:
                 x = int((box_width / 2) - (text_width / 2))
@@ -195,11 +195,11 @@ def main():
             image = Image.new('L', (EPD_WIDTH, EPD_HEIGHT), 255)
 
             # Put in the time
-            write_text_time(500, 70, str(time.strftime("%I:%M %p")), (0,20))
+            write_text_fonttime_center(500, 70, str(time.strftime("%I:%M %p")), (0,20))
 
             """Add the icon with the current month's name"""
             #image.paste(im_open(mpath+str(time.strftime("%B")+'.jpeg')), monthplace)
-            write_text_big(500, 70, str(time.strftime("%B %Y")), (0, 100))
+            write_text_fontbig_center(500, 70, str(time.strftime("%B  %Y")), (0, 100))
 
             """Add weekday-icons (Mon, Tue...) and draw a circle on the
             current weekday"""
@@ -257,14 +257,14 @@ def main():
                 if units is "metric":
                     Temperature = str(int(weather.get_temperature(unit='celsius')['temp']))
                     windspeed = str(int(weather.get_wind()['speed']))
-                    write_text(200, 50, Temperature + " °C", (1000, 95))
-                    write_text(200, 50, windspeed+" km/h", (1000, 195))
+                    write_text_fontnormal_center(200, 50, Temperature + " °C", (1000, 95))
+                    write_text_fontnormal_center(200, 50, windspeed+" km/h", (1000, 195))
 
                 if units is "imperial":
                     Temperature = str(int(weather.get_temperature(unit='fahrenheit')['temp']))
                     windspeed = str(int(weather.get_wind()['speed']*0.621))
-                    write_text(200, 50, Temperature + " °F", (1000, 95))
-                    write_text(200, 50, windspeed+" mph", (1000, 195))
+                    write_text_fontnormal_center(200, 50, Temperature + " °F", (1000, 95))
+                    write_text_fontnormal_center(200, 50, windspeed+" mph", (1000, 195))
 
                 if hours is "24":
                     sunrisetime = str(datetime.fromtimestamp(int(weather.get_sunrise_time(timeformat='unix'))).strftime('%-H:%M'))
@@ -301,26 +301,26 @@ def main():
 
                 """Add the humidity icon and display the humidity"""
                 image.paste(humicon, humplace)
-                write_text(200, 50, Humidity + " %", (1000, 145))
+                write_text_fontnormal_center(200, 50, Humidity + " %", (1000, 145))
 
                 """Add the sunrise icon and display the sunrise time"""
                 image.paste(sunriseicon, sunriseplace)
-                write_text(200, 50, sunrisetime, (750, 145))
+                write_text_fontnormal_center(200, 50, sunrisetime, (750, 145))
 
                 """Add the sunset icon and display the sunset time"""
                 image.paste(sunseticon, sunsetplace)
-                write_text(200,50, sunsettime, (750, 195))
+                write_text_fontnormal_center(200,50, sunsettime, (750, 195))
 
                 """Add the wind icon at it's position"""
                 image.paste(windicon, windiconspace)
 
                 """Add a short weather description"""
-                #write_text(250,50, weather_description, (700, 90))
+                #write_text_fontnormal_center(250,50, weather_description, (700, 90))
                 if len(cloudstatus) > 0:
-                	#write_text(200,50, str(weather_description+" "+cloudstatus+"%"), (750, 95))
-                	write_text(200,50, weather_description, (750, 95))
+                	#write_text_fontnormal_center(200,50, str(weather_description+" "+cloudstatus+"%"), (750, 95))
+                	write_text_fontnormal_center(200,50, weather_description, (750, 95))
                 else:
-                	write_text(200,50, weather_description, (750, 95))
+                	write_text_fontnormal_center(200,50, weather_description, (750, 95))
 
             else:
                 image.paste(no_response, wiconplace)
@@ -365,11 +365,11 @@ def main():
             for dates in range(len(upcoming)):
                 #readable_date = datetime.strptime(upcoming[dates]['date'], '%Y %m %d').strftime('%-d %b')
                 readable_date = datetime.strptime(upcoming[dates]['date'], '%Y %m %d').strftime('%b %-d')
-                #write_text(100, 40, readable_date, date_positions['d'+str(dates+1)])
-                write_text_right(100, 40, readable_date, date_positions['d'+str(dates+1)])
+                #write_text_fontnormal_right(100, 40, readable_date, date_positions['d'+str(dates+1)])
+                write_text_fontnormal_right(100, 40, readable_date, date_positions['d'+str(dates+1)])
 
             for events in range(len(upcoming)):
-                write_text_left(540, 40, (upcoming[events]['event']), event_positions['e'+str(events+1)])
+                write_text_fontnormal_left(540, 40, (upcoming[events]['event']), event_positions['e'+str(events+1)])
 
             """Add rss-feeds at the bottom section of the Calendar"""
             def multiline_text(text, max_width):
@@ -414,13 +414,13 @@ def main():
                 if len(news) > 5:
                     del news[4:]
                 for lines in range(len(news)):
-                    write_text_left(1100, 40, news[lines], rss_places['line_'+str(lines+1)])
+                    write_text_fontnormal_left(1100, 40, news[lines], rss_places['line_'+str(lines+1)])
 
             if len(cal) is 6:
                 if len(news) > 3:
                     del news[2:]
                 for lines in range(len(news)):
-                    write_text_left(1100, 40, news[lines], rss_places['line_'+str(lines+1)])
+                    write_text_fontnormal_left(1100, 40, news[lines], rss_places['line_'+str(lines+1)])
 
             """Draw smaller squares on days with events"""
             #for numbers in events_this_month:

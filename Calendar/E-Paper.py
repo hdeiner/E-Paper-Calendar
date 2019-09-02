@@ -103,9 +103,9 @@ def main():
         for i in range(1):
             """At the following hours (midnight, midday and 6 pm), perform
                a calibration of the display's colours"""
-            if hour is 0 or hour is 12 or hour is 18:
-                logging.info('DAILY CALIBRATION OF DISPLAY COLORS')
-                image.paste(im_open(opath+'white.jpeg'))
+            #if hour is 0 or hour is 12 or hour is 18:
+            #    logging.info('DAILY CALIBRATION OF DISPLAY COLORS')
+            #    image.paste(im_open(opath+'white.jpeg'))
 
             image_name = 'current-image'
             logging.info('STARTING NEW LOOP')

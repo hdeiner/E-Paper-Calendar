@@ -18,3 +18,6 @@ display_colours = "bwr"
 language = "en"
 units = "imperial"
 hours = "12"
+
+NO_EPAPER = False
+DRAW_OUTLINES = False

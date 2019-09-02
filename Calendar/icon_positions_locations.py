@@ -4,7 +4,11 @@ from PIL import Image, ImageFont
 from settings import *
 im_open = Image.open
 
-path = '/home/pi/E-Paper-Calendar/Calendar/'
+if NO_EPAPER:
+    path = '/home/howarddeiner/IdeaProjects/E-Paper-Calendar/Calendar/'
+else:
+    path = '/home/pi/E-Paper-Calendar/Calendar/'
+
 wpath = path+'weather-icons/'
 mpath = path+'translations/'+language+'/months/'
 weekpath =  path+'translations/'+language+'/week/'

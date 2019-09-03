@@ -21,3 +21,4 @@ hours = "12"
 
 NO_EPAPER = False
 DRAW_OUTLINES = False
+DRAW_BORDER = True

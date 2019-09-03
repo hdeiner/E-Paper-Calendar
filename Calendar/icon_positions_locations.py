@@ -27,30 +27,30 @@ sunriseicon = im_open(wpath+'wi-sunrise.jpeg')
 sunseticon = im_open(wpath+'wi-sunset.jpeg')
 windicon = im_open(wpath+'wi-strong-wind.jpeg')
 
-wiconplace = (550, 90)
-tempplace = (950, 90)
-humplace = (950, 140)
-monthplace = (50, 90)
+wiconplace = (540, 15)
+tempplace = (940, 15)
+humplace = (940, 65)
+monthplace = (50, 15)
 weekplace = (50, 200)
-windiconspace = (950, 190)
-sunriseplace = (700, 140)
-sunsetplace = (700, 190)
+windiconspace = (940, 115)
+sunriseplace = (700, 65)
+sunsetplace = (700, 115)
 
 rss_places = {
     'line_1' : (50, 625), 'line_2' : (50, 665), 'line_3' : (50, 705),
     'line_4' : (50, 745), 'line_5' : (50, 785)
     }
 
-e_col = 660
-date_col = 550
+e_col = 650
+date_col = 540
 
-e_row_1 = 290
-e_row_2 = 330
-e_row_3 = 370
-e_row_4 = 410
-e_row_5 = 450
-e_row_6 = 490
-e_row_7 = 530
+e_row_1 = 200
+e_row_2 = 240
+e_row_3 = 280
+e_row_4 = 320
+e_row_5 = 360
+e_row_6 = 400
+e_row_7 = 440
 
 
 event_positions = {

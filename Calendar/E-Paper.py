@@ -35,6 +35,7 @@ except ImportError:
 import sys 
 import logging
 from write_text_to_epaper import *
+from draw_time_to_epaper import *
 
 if NO_EPAPER:
     path = '/home/howarddeiner/IdeaProjects/E-Paper-Calendar/Calendar/'
@@ -89,18 +90,13 @@ EPD_HEIGHT = 825
 font_normal = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 28)
 font_big = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 52)
 font_time = ImageFont.truetype(path+'digital-7.ttf', 90)
+clock_face = "other/analog-clock-without-hands-clipart-6.jpg"
 im_open = Image.open
 
 def main():
     while True:
-        time = datetime.now()
-        hour = int(time.strftime("%-H"))
-        month = int(time.now().strftime('%-m'))
-        year = int(time.now().strftime('%Y'))
-        mins = int(time.strftime("%M"))
-        seconds = int(time.strftime("%S"))
-
         for i in range(1):
+            time = datetime.now()
             """At the following hours (midnight, midday and 6 pm), perform
                a calibration of the display's colours"""
             #if hour is 0 or hour is 12 or hour is 18:
@@ -112,14 +108,18 @@ def main():
 
             """Create a blank white page first"""
             image = Image.new('L', (EPD_WIDTH, EPD_HEIGHT), 255)
+            if (DRAW_BORDER):
+                ImageDraw.Draw(image).line([(2,2),(EPD_WIDTH-4,2),(EPD_WIDTH-4,EPD_HEIGHT-2),(2,EPD_HEIGHT-2),(2,2)], fill=0, width=2)
 
             # Put in the time
-            write_text_to_epaper(500, 70, str(time.strftime("%I:%M %p")), (0,20), image, font_time, 'center', logging)
+            write_text_to_epaper(500, 70, str(time.strftime("%I:%M %p")), (4,20), image, font_time, 'center', logging)
+            #draw_time_to_epaper(325, 550, 490, time, image, clock_face, logging)
+            draw_time_to_epaper(625, 550, 190, time, image, clock_face, logging)
 
             """Add the icon with the current month's name"""
             #image.paste(im_open(mpath+str(time.strftime("%B")+'.jpeg')), monthplace)
             # write_text_fontbig_center(500, 70, str(time.strftime("%B  %Y")), (0, 100))
-            write_text_to_epaper(500, 70, str(time.strftime("%B  %Y")), (0, 100), image, font_big, 'center', logging)
+            write_text_to_epaper(500, 70, str(time.strftime("%B  %Y")), (4, 100), image, font_big, 'center', logging)
 
             """Add weekday-icons (Mon, Tue...) and draw a circle on the
             current weekday"""
@@ -156,7 +156,6 @@ def main():
                 for i in cal[5]:
                     image.paste(im_open(dpath+str(numbers)+'.jpeg'), positions['f'+str(cal[5].index(numbers)+1)])
 
-
             """Connect to Openweathermap API to fetch weather data"""
             logging.info('Connecting to Openweathermap API servers..')
             if owm.is_API_online() is True:
@@ -171,14 +170,14 @@ def main():
                 if units is "metric":
                     Temperature = str(int(weather.get_temperature(unit='celsius')['temp']))
                     windspeed = str(int(weather.get_wind()['speed']))
-                    write_text_to_epaper(200, 50, Temperature + " °C", (1000, 95), image, font_normal, 'left', logging)
-                    write_text_to_epaper(200, 50, windspeed+" km/h", (1000, 195), image, font_normal, 'left', logging)
+                    write_text_to_epaper(200, 50, Temperature + " °C", (990, 20), image, font_normal, 'left', logging)
+                    write_text_to_epaper(200, 50, windspeed+" km/h", (990, 120), image, font_normal, 'left', logging)
 
                 if units is "imperial":
                     Temperature = str(int(weather.get_temperature(unit='fahrenheit')['temp']))
                     windspeed = str(int(weather.get_wind()['speed']*0.621))
-                    write_text_to_epaper(200, 50, Temperature + " °F", (1000, 95), image, font_normal, 'left', logging)
-                    write_text_to_epaper(200, 50, windspeed+" mph", (1000, 195), image, font_normal, 'left', logging)
+                    write_text_to_epaper(200, 50, Temperature + " °F", (990, 20), image, font_normal, 'left', logging)
+                    write_text_to_epaper(200, 50, windspeed+" mph", (990, 120), image, font_normal, 'left', logging)
 
                 if hours is "24":
                     sunrisetime = str(datetime.fromtimestamp(int(weather.get_sunrise_time(timeformat='unix'))).strftime('%-H:%M'))
@@ -206,24 +205,24 @@ def main():
 
                 """Add the humidity icon and display the humidity"""
                 image.paste(humicon, humplace)
-                write_text_to_epaper(200, 50, Humidity + " %", (1000, 145), image, font_normal, 'left', logging)
+                write_text_to_epaper(200, 50, Humidity + " %", (990, 70), image, font_normal, 'left', logging)
 
                 """Add the sunrise icon and display the sunrise time"""
                 image.paste(sunriseicon, sunriseplace)
-                write_text_to_epaper(200, 50, sunrisetime, (750, 145), image, font_normal, 'left', logging)
+                write_text_to_epaper(200, 50, sunrisetime, (750, 70), image, font_normal, 'left', logging)
 
                 """Add the sunset icon and display the sunset time"""
                 image.paste(sunseticon, sunsetplace)
-                write_text_to_epaper(200,50, sunsettime, (750, 195), image, font_normal, 'left', logging)
+                write_text_to_epaper(200,50, sunsettime, (750, 120), image, font_normal, 'left', logging)
 
                 """Add the wind icon at it's position"""
                 image.paste(windicon, windiconspace)
 
                 """Add a short weather description"""
                 if len(cloudstatus) > 0:
-                	write_text_to_epaper(200,50, weather_description, (750, 95), image, font_normal, 'left', logging)
+                	write_text_to_epaper(200,50, weather_description, (750, 20), image, font_normal, 'left', logging)
                 else:
-                	write_text_to_epaper(200,50, weather_description, (750, 95), image, font_normal, 'left', logging)
+                	write_text_to_epaper(200,50, weather_description, (750, 20), image, font_normal, 'left', logging)
 
             else:
                 image.paste(no_response, wiconplace)
@@ -231,7 +230,7 @@ def main():
 
             """Algorithm for filtering and sorting events from your
             iCalendar/s"""
-            logging.info('Fetching events from your calendar...')
+            logging.info('Fetching calendar')
             events_this_month = []
             upcoming = []
             today = date.today()
@@ -240,6 +239,7 @@ def main():
             to filter events in that range"""
             time_span = today + timedelta(days=int(events_max_range))
 
+            ical_urls = []
             for icalendars in ical_urls:
                 decode = str(urlopen(icalendars).read().decode())
                 fix_e_1 = decode.replace('BEGIN:VALARM\r\nACTION:NONE','BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:')
@@ -364,12 +364,12 @@ def main():
                 image.show()
             else:
                 # Save the generated image in the E-Paper-folder.
-                logging.info('Saving the generated image now...')
+                logging.info('Saving generated image')
                 image.save(str(image_name)+'.bmp')
-                logging.info('Image saved successfully')
+                logging.info('Image saved')
 
             # Send to E-Paper
-                logging.info('Sending to E-Paper')
+                logging.info('Sending image to E-Paper')
                 #os.system('sudo /home/pi/E-Paper-Calendar/Calendar/Driver-files/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
                 os.system('sudo /home/pi/Drivers/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
                 logging.info('Done sending to E-Paper')

@@ -387,7 +387,7 @@ def main():
                 #nexthour = ((60 - int(time.strftime("%-M")))*60) - (int(time.strftime("%-S")))
                 #sleep(nexthour)
                 nextminute = (60 - int(time.strftime("%-S")))
-                logging.info('sleeping for '+str(nextminute)+' seconds')
+                logging.info('sleep for '+str(nextminute)+' seconds')
                 sleep(nextminute)
 
 if __name__ == '__main__':

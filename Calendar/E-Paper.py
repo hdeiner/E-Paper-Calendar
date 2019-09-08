@@ -157,7 +157,7 @@ def main():
                     image.paste(im_open(dpath+str(numbers)+'.jpeg'), positions['f'+str(cal[5].index(numbers)+1)])
 
             """Connect to Openweathermap API to fetch weather data"""
-            logging.info('Connecting to Openweathermap API servers..')
+            logging.info('Openweathermap...')
             if owm.is_API_online() is True:
                 logging.debug('weather location = '+ location)
                 observation = owm.weather_at_place(location)
@@ -369,10 +369,10 @@ def main():
                 logging.info('Image saved')
 
             # Send to E-Paper
-                logging.info('Sending image to E-Paper')
+                logging.info('Updating E-Paper')
                 #os.system('sudo /home/pi/E-Paper-Calendar/Calendar/Driver-files/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
                 os.system('sudo /home/pi/Drivers/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
-                logging.info('Done sending to E-Paper')
+                logging.info('Done updating')
 
             #print('______Sleeping until the next loop______'+'\n', file=sys.stdout)
 

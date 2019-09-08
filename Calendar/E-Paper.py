@@ -88,6 +88,7 @@ owm = pyowm.OWM(api_key)
 EPD_WIDTH = 1200
 EPD_HEIGHT = 825
 font_normal = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 28)
+font_calendar = ImageFont.truetype(path+'OpenSans-Bold.ttf', 27)
 font_big = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 52)
 font_time = ImageFont.truetype(path+'digital-7.ttf', 90)
 clock_face = "other/analog-clock-without-hands-clipart-6.jpg"
@@ -127,15 +128,29 @@ def main():
             if (week_starts_on is "Monday"):
                 logging.debug('code for week_starts_on Monday')
                 calendar.setfirstweekday(calendar.MONDAY)
-                image.paste(weekmon, weekplace)
-                image.paste(weekday, weekdaysmon[(time.strftime("%a"))], weekday)
+                #image.paste(weekmon, weekplace)
+                #image.paste(weekday, weekdaysmon[(time.strftime("%a"))], weekday)
+                write_text_to_epaper(60, 50, "Mon", (20, 200), image, font_calendar, 'center', logging)
+                write_text_to_epaper(60, 50, "Tue", (85, 200), image, font_calendar, 'center', logging)
+                write_text_to_epaper(60, 50, "Wed", (150, 200), image, font_calendar, 'center', logging)
+                write_text_to_epaper(60, 50, "Thu", (215, 200), image, font_calendar, 'center', logging)
+                write_text_to_epaper(60, 50, "Fri", (280, 200), image, font_calendar, 'center', logging)
+                write_text_to_epaper(60, 50, "Sat", (345, 200), image, font_calendar, 'center', logging)
+                write_text_to_epaper(60, 50, "Sun", (410, 200), image, font_calendar, 'center', logging)
 
             """For those whose week starts on Sunday, change accordingly"""
             if (week_starts_on is "Sunday"):
                 logging.debug('code for week_starts_on Sunday')
                 calendar.setfirstweekday(calendar.SUNDAY)
-                image.paste(weeksun, weekplace)
-                image.paste(weekday, weekdayssun[(time.strftime("%a"))], weekday)
+                #image.paste(weeksun, weekplace)
+                #image.paste(weekday, weekdayssun[(time.strftime("%a"))], weekday)
+                write_text_to_epaper(60, 50, "Sun", (20, 200), image, font_calendar, 'center', logging)
+                write_text_to_epaper(60, 50, "Mon", (85, 200), image, font_calendar, 'center', logging)
+                write_text_to_epaper(60, 50, "Tue", (150, 200), image, font_calendar, 'center', logging)
+                write_text_to_epaper(60, 50, "Wed", (215, 200), image, font_calendar, 'center', logging)
+                write_text_to_epaper(60, 50, "Thu", (280, 200), image, font_calendar, 'center', logging)
+                write_text_to_epaper(60, 50, "Fri", (345, 200), image, font_calendar, 'center', logging)
+                write_text_to_epaper(60, 50, "Sat", (410, 200), image, font_calendar, 'center', logging)
 
             """Using the built-in calendar function, add icons for each
                number of the month (1,2,3,...28,29,30)"""
@@ -143,18 +158,24 @@ def main():
             #print(cal) #-uncomment for debugging with incorrect dates
 
             for i in cal[0]:
-                image.paste(im_open(dpath+str(i)+'.jpeg'), positions['a'+str(cal[0].index(i)+1)])
+                #image.paste(im_open(dpath+str(i)+'.jpeg'), positions['a'+str(cal[0].index(i)+1)])
+                write_text_to_epaper(60, 50, str(i), (20+65*(i-1), 250), image, font_calendar, 'center', logging)
             for i in cal[1]:
-                image.paste(im_open(dpath+str(i)+'.jpeg'), positions['b'+str(cal[1].index(i)+1)])
+                #image.paste(im_open(dpath+str(i)+'.jpeg'), positions['b'+str(cal[1].index(i)+1)])
+                write_text_to_epaper(60, 50, str(i), (20+65*(i-cal[1][0]), 300), image, font_calendar, 'center', logging)
             for i in cal[2]:
-                image.paste(im_open(dpath+str(i)+'.jpeg'), positions['c'+str(cal[2].index(i)+1)])
+                #image.paste(im_open(dpath+str(i)+'.jpeg'), positions['c'+str(cal[2].index(i)+1)])
+                write_text_to_epaper(60, 50, str(i), (20+65*(i-cal[2][0]), 350), image, font_calendar, 'center', logging)
             for i in cal[3]:
-                image.paste(im_open(dpath+str(i)+'.jpeg'), positions['d'+str(cal[3].index(i)+1)])
+                #image.paste(im_open(dpath+str(i)+'.jpeg'), positions['d'+str(cal[3].index(i)+1)])
+                write_text_to_epaper(60, 50, str(i), (20+65*(i-cal[3][0]), 400), image, font_calendar, 'center', logging)
             for i in cal[4]:
-                image.paste(im_open(dpath+str(i)+'.jpeg'), positions['e'+str(cal[4].index(i)+1)])
+                #image.paste(im_open(dpath+str(i)+'.jpeg'), positions['e'+str(cal[4].index(i)+1)])
+                write_text_to_epaper(60, 50, str(i), (20+65*(i-cal[4][0]), 450), image, font_calendar, 'center', logging)
             if len(cal) is 6:
                 for i in cal[5]:
-                    image.paste(im_open(dpath+str(numbers)+'.jpeg'), positions['f'+str(cal[5].index(numbers)+1)])
+                    #image.paste(im_open(dpath+str(numbers)+'.jpeg'), positions['f'+str(cal[5].index(numbers)+1)])
+                    write_text_to_epaper(60, 50, str(i), (20+65*(i-cal[5][0]), 500), image, font_calendar, 'center', logging)
 
             """Connect to Openweathermap API to fetch weather data"""
             logging.info('Openweathermap...')
@@ -347,18 +368,24 @@ def main():
             """Draw a larger square on today's date"""
             today = time.day
             if today in cal[0]:
-                image.paste(dateicon, positions['a'+str(cal[0].index(today)+1)], dateicon)
+                #image.paste(dateicon, positions['a'+str(cal[0].index(today)+1)], dateicon)
+                image.paste(dateicon, (20+65*(today-cal[0][0]), 235), dateicon)
             if today in cal[1]:
-                image.paste(dateicon, positions['b'+str(cal[1].index(today)+1)], dateicon)
+                #image.paste(dateicon, positions['b'+str(cal[1].index(today)+1)], dateicon)
+                image.paste(dateicon, (20+65*(today-cal[1][0]), 285), dateicon)
             if today in cal[2]:
-                image.paste(dateicon, positions['c'+str(cal[2].index(today)+1)], dateicon)
+                #image.paste(dateicon, positions['c'+str(cal[2].index(today)+1)], dateicon)
+                image.paste(dateicon, (20+65*(today-cal[2][0]), 335), dateicon)
             if today in cal[3]:
-                image.paste(dateicon, positions['d'+str(cal[3].index(today)+1)], dateicon)
+                #image.paste(dateicon, positions['d'+str(cal[3].index(today)+1)], dateicon)
+                image.paste(dateicon, (20+65*(today-cal[3][0]), 385), dateicon)
             if today in cal[4]:
-                image.paste(dateicon, positions['e'+str(cal[4].index(today)+1)], dateicon)
+                #image.paste(dateicon, positions['e'+str(cal[4].index(today)+1)], dateicon)
+                image.paste(dateicon, (20+65*(today-cal[4][0]), 435), dateicon)
             if len(cal) is 6:
                 if today in cal[5]:
-                    image.paste(dateicon, positions['f'+str(cal[5].index(today)+1)], dateicon)
+                    #image.paste(dateicon, positions['f'+str(cal[5].index(today)+1)], dateicon)
+                    image.paste(dateicon, (20+65*(today-cal[5][0]), 485), dateicon)
 
             if NO_EPAPER:
                 image.show()

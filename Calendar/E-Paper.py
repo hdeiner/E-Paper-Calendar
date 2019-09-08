@@ -90,7 +90,7 @@ EPD_HEIGHT = 825
 font_normal = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 28)
 font_calendar = ImageFont.truetype(path+'OpenSans-Bold.ttf', 28)
 font_big = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 52)
-font_time = ImageFont.truetype(path+'digital-7.ttf', 90)
+font_time = ImageFont.truetype(path+'digital-7.ttf', 120)
 clock_face = "other/analog-clock-without-hands-clipart-6.jpg"
 im_open = Image.open
 
@@ -113,7 +113,7 @@ def main():
                 ImageDraw.Draw(image).line([(2,2),(EPD_WIDTH-4,2),(EPD_WIDTH-4,EPD_HEIGHT-2),(2,EPD_HEIGHT-2),(2,2)], fill=0, width=2)
 
             # Put in the time
-            write_text_to_epaper(500, 70, str(time.strftime("%I:%M %p")), (4,70), image, font_time, 'center', logging)
+            write_text_to_epaper(500, 130, str(time.strftime("%I:%M %p")), (4,70), image, font_time, 'center', logging)
             #draw_time_to_epaper(325, 550, 490, time, image, clock_face, logging)
             draw_time_to_epaper(625, 550, 190, time, image, clock_face, logging)
 

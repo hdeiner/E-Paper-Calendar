@@ -413,7 +413,7 @@ def main():
             for i in range(1):
                 #nexthour = ((60 - int(time.strftime("%-M")))*60) - (int(time.strftime("%-S")))
                 #sleep(nexthour)
-                nextminute = (60 - int(time.strftime("%-S")))
+                nextminute = (60 - int(datetime.now().strftime("%-S")))
                 logging.info('sleep for '+str(nextminute)+' seconds')
                 sleep(nextminute)
 

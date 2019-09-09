@@ -87,18 +87,27 @@ owm = pyowm.OWM(api_key)
 
 EPD_WIDTH = 1200
 EPD_HEIGHT = 825
+
 font_normal = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 28)
 font_calendar = ImageFont.truetype(path+'OpenSans-Bold.ttf', 28)
 font_calendar_days = ImageFont.truetype(path+'OpenSans-Bold.ttf', 40)
 font_big = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 52)
 font_time = ImageFont.truetype(path+'OpenSans-Bold.ttf', 100)
-clock_face = "other/analog-clock-without-hands-clipart-6.jpg"
+
+clock_face_files = [f for f in os.listdir(path+'clock_faces')]
+
 im_open = Image.open
 
 def main():
+    time = datetime.now()
+    clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
     while True:
         for i in range(1):
-            time = datetime.now()
+            if (datetime.now().hour != time.hour):
+                time = datetime.now()
+                new_face = clock_face_file_in_use
+                while (new_face == clock_face_file_in_use):
+                    clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
 
             image_name = 'current-image'
             logging.info('STARTING NEW LOOP')
@@ -110,7 +119,7 @@ def main():
 
             # Put in the time
             write_text_to_epaper(500, 130, str(time.strftime("%I:%M %p")), (24,70), image, font_time, 'center', logging)
-            draw_time_to_epaper(625, 550, 190, time, image, clock_face, logging)
+            draw_time_to_epaper(625, 550, 190, time, image, path+'clock_faces/'+clock_face_files[clock_face_file_in_use], logging)
 
             """Add the icon with the current month's name"""
             #image.paste(im_open(mpath+str(time.strftime("%B")+'.jpeg')), monthplace)
@@ -400,3 +409,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

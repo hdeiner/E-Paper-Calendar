@@ -99,15 +99,16 @@ clock_face_files = [f for f in os.listdir(path+'clock_faces')]
 im_open = Image.open
 
 def main():
-    time = datetime.now()
     clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
+    logging.info('NOW USING CLOCK FACE '+clock_face_files[clock_face_file_in_use])
     while True:
+        time = datetime.now()
         for i in range(1):
             if (datetime.now().hour != time.hour):
-                time = datetime.now()
                 new_face = clock_face_file_in_use
                 while (new_face == clock_face_file_in_use):
                     clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
+                    logging.info('NOW USING CLOCK FACE '+clock_face_files[clock_face_file_in_use])
 
             image_name = 'current-image'
             logging.info('STARTING NEW LOOP')

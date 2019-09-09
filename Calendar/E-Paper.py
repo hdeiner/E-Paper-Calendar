@@ -89,8 +89,9 @@ EPD_WIDTH = 1200
 EPD_HEIGHT = 825
 font_normal = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 28)
 font_calendar = ImageFont.truetype(path+'OpenSans-Bold.ttf', 28)
+font_calendar_days = ImageFont.truetype(path+'OpenSans-Bold.ttf', 40)
 font_big = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 52)
-font_time = ImageFont.truetype(path+'digital-7.ttf', 120)
+font_time = ImageFont.truetype(path+'digital-7.ttf', 130)
 clock_face = "other/analog-clock-without-hands-clipart-6.jpg"
 im_open = Image.open
 
@@ -159,23 +160,23 @@ def main():
 
             for i in cal[0]:
                 #image.paste(im_open(dpath+str(i)+'.jpeg'), positions['a'+str(cal[0].index(i)+1)])
-                write_text_to_epaper(65, 50, str(i), (20+65*(i-1), 400), image, font_calendar, 'center', logging)
+                write_text_to_epaper(65, 50, str(i), (20+65*(i-1), 400), image, font_calendar_days, 'center', logging)
             for i in cal[1]:
                 #image.paste(im_open(dpath+str(i)+'.jpeg'), positions['b'+str(cal[1].index(i)+1)])
-                write_text_to_epaper(65, 50, str(i), (20+65*(i-cal[1][0]), 450), image, font_calendar, 'center', logging)
+                write_text_to_epaper(65, 50, str(i), (20+65*(i-cal[1][0]), 450), image, font_calendar_days, 'center', logging)
             for i in cal[2]:
                 #image.paste(im_open(dpath+str(i)+'.jpeg'), positions['c'+str(cal[2].index(i)+1)])
-                write_text_to_epaper(65, 50, str(i), (20+65*(i-cal[2][0]), 500), image, font_calendar, 'center', logging)
+                write_text_to_epaper(65, 50, str(i), (20+65*(i-cal[2][0]), 500), image, font_calendar_days, 'center', logging)
             for i in cal[3]:
                 #image.paste(im_open(dpath+str(i)+'.jpeg'), positions['d'+str(cal[3].index(i)+1)])
-                write_text_to_epaper(65, 50, str(i), (20+65*(i-cal[3][0]), 550), image, font_calendar, 'center', logging)
+                write_text_to_epaper(65, 50, str(i), (20+65*(i-cal[3][0]), 550), image, font_calendar_days, 'center', logging)
             for i in cal[4]:
                 #image.paste(im_open(dpath+str(i)+'.jpeg'), positions['e'+str(cal[4].index(i)+1)])
-                write_text_to_epaper(65, 50, str(i), (20+65*(i-cal[4][0]), 600), image, font_calendar, 'center', logging)
+                write_text_to_epaper(65, 50, str(i), (20+65*(i-cal[4][0]), 600), image, font_calendar_days, 'center', logging)
             if len(cal) is 6:
                 for i in cal[5]:
                     #image.paste(im_open(dpath+str(numbers)+'.jpeg'), positions['f'+str(cal[5].index(numbers)+1)])
-                    write_text_to_epaper(65, 50, str(i), (20+65*(i-cal[5][0]), 650), image, font_calendar, 'center', logging)
+                    write_text_to_epaper(65, 50, str(i), (20+65*(i-cal[5][0]), 650), image, font_calendar_days, 'center', logging)
 
             """Connect to Openweathermap API to fetch weather data"""
             logging.info('Openweathermap...')
@@ -230,20 +231,20 @@ def main():
 
                 """Add the sunrise icon and display the sunrise time"""
                 image.paste(sunriseicon, sunriseplace)
-                write_text_to_epaper(200, 50, sunrisetime, (750, 70), image, font_normal, 'left', logging)
+                write_text_to_epaper(200, 50, sunrisetime, (740, 70), image, font_normal, 'left', logging)
 
                 """Add the sunset icon and display the sunset time"""
                 image.paste(sunseticon, sunsetplace)
-                write_text_to_epaper(200,50, sunsettime, (750, 120), image, font_normal, 'left', logging)
+                write_text_to_epaper(200,50, sunsettime, (740, 120), image, font_normal, 'left', logging)
 
                 """Add the wind icon at it's position"""
                 image.paste(windicon, windiconspace)
 
                 """Add a short weather description"""
                 if len(cloudstatus) > 0:
-                	write_text_to_epaper(200,50, weather_description, (750, 20), image, font_normal, 'left', logging)
+                	write_text_to_epaper(200,50, weather_description, (740, 20), image, font_normal, 'left', logging)
                 else:
-                	write_text_to_epaper(200,50, weather_description, (750, 20), image, font_normal, 'left', logging)
+                	write_text_to_epaper(200,50, weather_description, (740, 20), image, font_normal, 'left', logging)
 
             else:
                 image.paste(no_response, wiconplace)
@@ -369,23 +370,23 @@ def main():
             today = time.day
             if today in cal[0]:
                 #image.paste(dateicon, positions['a'+str(cal[0].index(today)+1)], dateicon)
-                image.paste(dateicon, (20+65*(today-cal[0][0]), 385), dateicon)
+                image.paste(dateicon, (20+65*(today-cal[0][0]), 395), dateicon)
             if today in cal[1]:
                 #image.paste(dateicon, positions['b'+str(cal[1].index(today)+1)], dateicon)
-                image.paste(dateicon, (20+65*(today-cal[1][0]), 435), dateicon)
+                image.paste(dateicon, (20+65*(today-cal[1][0]), 445), dateicon)
             if today in cal[2]:
                 #image.paste(dateicon, positions['c'+str(cal[2].index(today)+1)], dateicon)
-                image.paste(dateicon, (20+65*(today-cal[2][0]), 485), dateicon)
+                image.paste(dateicon, (20+65*(today-cal[2][0]), 495), dateicon)
             if today in cal[3]:
                 #image.paste(dateicon, positions['d'+str(cal[3].index(today)+1)], dateicon)
-                image.paste(dateicon, (20+65*(today-cal[3][0]), 535), dateicon)
+                image.paste(dateicon, (20+65*(today-cal[3][0]), 545), dateicon)
             if today in cal[4]:
                 #image.paste(dateicon, positions['e'+str(cal[4].index(today)+1)], dateicon)
-                image.paste(dateicon, (20+65*(today-cal[4][0]), 585), dateicon)
+                image.paste(dateicon, (20+65*(today-cal[4][0]), 595), dateicon)
             if len(cal) is 6:
                 if today in cal[5]:
                     #image.paste(dateicon, positions['f'+str(cal[5].index(today)+1)], dateicon)
-                    image.paste(dateicon, (20+65*(today-cal[5][0]), 635), dateicon)
+                    image.paste(dateicon, (20+65*(today-cal[5][0]), 645), dateicon)
 
             if NO_EPAPER:
                 image.show()
@@ -397,8 +398,7 @@ def main():
 
             # Send to E-Paper
                 logging.info('Updating E-Paper')
-                #os.system('sudo /home/pi/E-Paper-Calendar/Calendar/Driver-files/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
-                os.system('sudo /home/pi/Drivers/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
+                os.system('sudo /home/pi/E-Paper-Calendar/Calendar/Driver-files/IT8951/IT8951 0 0 /home/pi/E-Paper-Calendar/Calendar/current-image.bmp')
                 logging.info('Done updating')
 
             #print('______Sleeping until the next loop______'+'\n', file=sys.stdout)

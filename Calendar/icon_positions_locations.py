@@ -33,8 +33,8 @@ humplace = (940, 65)
 monthplace = (50, 15)
 weekplace = (50, 200)
 windiconspace = (940, 115)
-sunriseplace = (700, 65)
-sunsetplace = (700, 115)
+sunriseplace = (690, 65)
+sunsetplace = (690, 115)
 
 rss_places = {
     'line_1' : (50, 625), 'line_2' : (50, 665), 'line_3' : (50, 705),

@@ -101,18 +101,20 @@ im_open = Image.open
 def main():
     time = datetime.now()
     clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
-    logging.info('NOW USING CLOCK FACE '+clock_face_files[clock_face_file_in_use])
+    logging.info('STARTING WITH CLOCK FACE '+clock_face_files[clock_face_file_in_use])
     while True:
         for i in range(1):
-            if (datetime.now().hour != time.hour):
+            logging.info('STARTING NEW LOOP')
+
+            #if (datetime.now().hour != time.hour):
+            if ((datetime.now().minute % 10) == 0):
                 new_face = clock_face_file_in_use
                 while (new_face == clock_face_file_in_use):
                     clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
-                    logging.info('NOW USING CLOCK FACE '+clock_face_files[clock_face_file_in_use])
+                    logging.info('SWITCHING TO CLOCK FACE '+clock_face_files[clock_face_file_in_use])
 
             time = datetime.now()
             image_name = 'current-image'
-            logging.info('STARTING NEW LOOP')
 
             """Create a blank white page first"""
             image = Image.new('L', (EPD_WIDTH, EPD_HEIGHT), 255)

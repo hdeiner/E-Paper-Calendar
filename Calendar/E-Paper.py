@@ -99,10 +99,10 @@ clock_face_files = [f for f in os.listdir(path+'clock_faces')]
 im_open = Image.open
 
 def main():
+    time = datetime.now()
     clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
     logging.info('NOW USING CLOCK FACE '+clock_face_files[clock_face_file_in_use])
     while True:
-        time = datetime.now()
         for i in range(1):
             if (datetime.now().hour != time.hour):
                 new_face = clock_face_file_in_use
@@ -110,6 +110,7 @@ def main():
                     clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
                     logging.info('NOW USING CLOCK FACE '+clock_face_files[clock_face_file_in_use])
 
+            time = datetime.now()
             image_name = 'current-image'
             logging.info('STARTING NEW LOOP')
 
@@ -177,18 +178,18 @@ def main():
             """Draw a larger square on today's date"""
             today = time.day
             if today in cal[0]:
-                image.paste(dateicon, (50+65*(today-cal[0][0]), 395), dateicon)
+                image.paste(dateicon, (53+65*(today-cal[0][0]), 395), dateicon)
             if today in cal[1]:
-                image.paste(dateicon, (50+65*(today-cal[1][0]), 445), dateicon)
+                image.paste(dateicon, (53+65*(today-cal[1][0]), 445), dateicon)
             if today in cal[2]:
-                image.paste(dateicon, (50+65*(today-cal[2][0]), 495), dateicon)
+                image.paste(dateicon, (53+65*(today-cal[2][0]), 495), dateicon)
             if today in cal[3]:
-                image.paste(dateicon, (50+65*(today-cal[3][0]), 545), dateicon)
+                image.paste(dateicon, (53+65*(today-cal[3][0]), 545), dateicon)
             if today in cal[4]:
-                image.paste(dateicon, (50+65*(today-cal[4][0]), 595), dateicon)
+                image.paste(dateicon, (53+65*(today-cal[4][0]), 595), dateicon)
             if len(cal) is 6:
                 if today in cal[5]:
-                    image.paste(dateicon, (50+65*(today-cal[5][0]), 645), dateicon)
+                    image.paste(dateicon, (53+65*(today-cal[5][0]), 645), dateicon)
 
             """Connect to Openweathermap API to fetch weather data"""
             logging.info('Openweathermap...')

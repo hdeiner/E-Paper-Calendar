@@ -94,23 +94,29 @@ font_calendar_days = ImageFont.truetype(path+'OpenSans-Bold.ttf', 40)
 font_big = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 75)
 font_date = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 50)
 clock_face_files = [f for f in os.listdir(path+'clock_faces')]
+clock_face_file = ""
 
 im_open = Image.open
 
 def main():
     time = datetime.now()
-    clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
-    logging.info('STARTING WITH CLOCK FACE '+clock_face_files[clock_face_file_in_use])
+    #clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
+    #logging.info('STARTING WITH CLOCK FACE '+clock_face_files[clock_face_file_in_use])
+    clock_face_file = str(time.strftime('%A')) + '.jpg'             
+    logging.info('STARTING WITH CLOCK FACE '+clock_face_file)
     while True:
         for i in range(1):
             logging.info('STARTING NEW LOOP')
 
+            if (clock_face_file != (str(time.strftime('%A')) + '.jpg')):
+                clock_face_file = str(time.strftime('%A')) + '.jpg'
+                logging.info('SWITCHING TO CLOCK FACE '+clock_face_file)
             #if (datetime.now().hour != time.hour):
-            if ((datetime.now().minute % 10) == 0):
-                new_face = clock_face_file_in_use
-                while (new_face == clock_face_file_in_use):
-                    clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
-                    logging.info('SWITCHING TO CLOCK FACE '+clock_face_files[clock_face_file_in_use])
+            #if ((datetime.now().minute % 10) == 0):
+            #    new_face = clock_face_file_in_use
+            #    while (new_face == clock_face_file_in_use):
+            #        clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
+            #        logging.info('SWITCHING TO CLOCK FACE '+clock_face_files[clock_face_file_in_use])
 
             time = datetime.now()
             image_name = 'current-image'
@@ -123,7 +129,8 @@ def main():
             # Put in the day, date, and time
             write_text_to_epaper(500, 70, str(time.strftime('%A')), (24,155), image, font_date, 'center', logging)
             write_text_to_epaper(500, 95, str(time.strftime("%I:%M %p")), (24,65), image, font_big, 'center', logging)
-            draw_time_to_epaper(625, 550, 190, time, image, path+'clock_faces/'+clock_face_files[clock_face_file_in_use], logging)
+            #draw_time_to_epaper(625, 550, 190, time, image, path+'clock_faces/'+clock_face_files[clock_face_file_in_use], logging)
+            draw_time_to_epaper(625, 550, 190, time, image, path+'clock_faces/'+clock_face_file, logging)
 
             """Add the icon with the current month's name"""
             #image.paste(im_open(mpath+str(time.strftime("%B")+'.jpeg')), monthplace)

@@ -171,7 +171,8 @@ def main():
             #print(cal) #-uncomment for debugging with incorrect dates
 
             for i in cal[0]:
-                write_text_to_epaper(65, 50, str(i), (50+65*calendar.weekday(time.year, time.month, 1), 400), image, font_calendar_days, 'center', logging)
+                if (cal[0][i] != 0):
+                    write_text_to_epaper(65, 50, str(i), (50+65*(i-cal[0][0]), 400), image, font_calendar_days, 'center', logging)
             for i in cal[1]:
                 write_text_to_epaper(65, 50, str(i), (50+65*(i-cal[1][0]), 450), image, font_calendar_days, 'center', logging)
             for i in cal[2]:

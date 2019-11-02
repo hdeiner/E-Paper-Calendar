@@ -32,13 +32,13 @@ except ImportError:
     print("and", file=sys.stdout)
     print("pip3 install feedparser", file=sys.stdout)
 
-import sys 
+import sys
 import logging
 from write_text_to_epaper import *
 from draw_time_to_epaper import *
 
 if NO_EPAPER:
-    path = '/home/howarddeiner/IdeaProjects/E-Paper-Calendar/Calendar/'
+    path = '/home/howarddeiner/PycharmProjects/E-Paper-Calendar/Calendar/'
 else:
     path = '/home/pi/E-Paper-Calendar/Calendar/'
 
@@ -95,14 +95,13 @@ font_big = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 75)
 font_date = ImageFont.truetype(path+'OpenSans-Semibold.ttf', 50)
 clock_face_files = [f for f in os.listdir(path+'clock_faces')]
 clock_face_file = ""
-
 im_open = Image.open
 
 def main():
     time = datetime.now()
     #clock_face_file_in_use = random.randint(0,len(clock_face_files)-1)
     #logging.info('STARTING WITH CLOCK FACE '+clock_face_files[clock_face_file_in_use])
-    clock_face_file = str(time.strftime('%A')) + '.jpg'             
+    clock_face_file = str(time.strftime('%A')) + '.jpg'
     logging.info('STARTING WITH CLOCK FACE '+clock_face_file)
     while True:
         for i in range(1):
@@ -170,9 +169,9 @@ def main():
             cal = calendar.monthcalendar(time.year, time.month)
             #print(cal) #-uncomment for debugging with incorrect dates
 
-            for i in cal[0]:
+            for i in range(7):
                 if (cal[0][i] != 0):
-                    write_text_to_epaper(65, 50, str(i), (50+65*(i-cal[0][0]), 400), image, font_calendar_days, 'center', logging)
+                    write_text_to_epaper(65, 50, str(cal[0][i]), (50+65*i, 400), image, font_calendar_days, 'center', logging)
             for i in cal[1]:
                 write_text_to_epaper(65, 50, str(i), (50+65*(i-cal[1][0]), 450), image, font_calendar_days, 'center', logging)
             for i in cal[2]:
@@ -188,7 +187,9 @@ def main():
             """Draw a larger square on today's date"""
             today = time.day
             if today in cal[0]:
-                image.paste(dateicon, (53+65*(today-cal[0][0]), 395), dateicon)
+                for i in range(7):
+                    if (cal[0][i] == today):
+                        image.paste(dateicon, (53+65*(i), 395), dateicon)
             if today in cal[1]:
                 image.paste(dateicon, (53+65*(today-cal[1][0]), 445), dateicon)
             if today in cal[2]:
@@ -265,9 +266,9 @@ def main():
 
                 """Add a short weather description"""
                 if len(cloudstatus) > 0:
-                	write_text_to_epaper(200,50, weather_description, (740, 20), image, font_normal, 'left', logging)
+                        write_text_to_epaper(200,50, weather_description, (740, 20), image, font_normal, 'left', logging)
                 else:
-                	write_text_to_epaper(200,50, weather_description, (740, 20), image, font_normal, 'left', logging)
+                        write_text_to_epaper(200,50, weather_description, (740, 20), image, font_normal, 'left', logging)
 
             else:
                 image.paste(no_response, wiconplace)
@@ -421,3 +422,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

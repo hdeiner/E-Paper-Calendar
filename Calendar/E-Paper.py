@@ -178,8 +178,9 @@ def main():
                 write_text_to_epaper(65, 50, str(i), (50+65*(i-cal[2][0]), 500), image, font_calendar_days, 'center', logging)
             for i in cal[3]:
                 write_text_to_epaper(65, 50, str(i), (50+65*(i-cal[3][0]), 550), image, font_calendar_days, 'center', logging)
-            for i in cal[4]:
-                write_text_to_epaper(65, 50, str(i), (50+65*(i-cal[4][0]), 600), image, font_calendar_days, 'center', logging)
+            if len(cal) > 4:
+                for i in cal[4]:
+                    write_text_to_epaper(65, 50, str(i), (50+65*(i-cal[4][0]), 600), image, font_calendar_days, 'center', logging)
             if len(cal) is 6:
                 for i in cal[5]:
                     write_text_to_epaper(65, 50, str(i), (50+65*(i-cal[5][0]), 650), image, font_calendar_days, 'center', logging)
@@ -196,8 +197,9 @@ def main():
                 image.paste(dateicon, (53+65*(today-cal[2][0]), 495), dateicon)
             if today in cal[3]:
                 image.paste(dateicon, (53+65*(today-cal[3][0]), 545), dateicon)
-            if today in cal[4]:
-                image.paste(dateicon, (53+65*(today-cal[4][0]), 595), dateicon)
+            if len(cal) > 4:
+                if today in cal[4]:
+                    image.paste(dateicon, (53+65*(today-cal[4][0]), 595), dateicon)
             if len(cal) is 6:
                 if today in cal[5]:
                     image.paste(dateicon, (53+65*(today-cal[5][0]), 645), dateicon)
